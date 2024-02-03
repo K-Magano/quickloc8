@@ -3,6 +3,9 @@
         android:label="quickloc8"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyDil3jSnDOgwu0Cl2-4kdDnEIoup-wm7K8"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

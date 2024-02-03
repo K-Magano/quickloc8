@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:quickloc8/map_screen.dart';
+
+import 'dart:async';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 //import "package:flutter_config/flutter_config.dart";
 
@@ -36,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
       const Duration(milliseconds: 3500),
       () {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => const Home()));
+            context, MaterialPageRoute(builder: (context) => MapScreen()));
       },
     );
   }
@@ -60,16 +64,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 }
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+// class MapScreen extends StatelessWidget {
+//   const MapScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFF55722),
-        title: const Text('Map page'),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         backgroundColor: const Color(0xFFF55722),
+//         title: const Text('Map page'),
+//       ),
+//     );
+//   }
+// }
