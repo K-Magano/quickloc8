@@ -69,6 +69,7 @@ flutter:
     - assets/images/Quickloc8-logo.png
     - assets/images/white_taxi.png
     - assets/images/quickloc8.svg
+    - assets/jsonfile/messages.json
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

@@ -1,7 +1,8 @@
 import "dart:async";
 import "package:flutter/material.dart";
-// import 'package:flutter/services.dart';
+//import 'package:flutter/services.dart';
 import "package:google_maps_flutter/google_maps_flutter.dart";
+import "package:quickloc8/messageScreen/message_screen.dart";
 
 class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
@@ -28,7 +29,7 @@ class _MapScreenState extends State<MapScreen> {
     Marker(
       markerId: MarkerId("TaxiOne"),
       position: LatLng(-33.876115, 18.5008116),
-      infoWindow: InfoWindow(title: "TaxiOne"),
+      infoWindow: InfoWindow(title: "TaxiOne!"),
     ),
     Marker(
       markerId: MarkerId("TaxiTwo"),
@@ -59,14 +60,27 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
+    super.initState();
     myMarker.addAll(markerList);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Quick Loc8",
+          style: TextStyle(
+            color: Colors.white, // Change color as desired
+            fontSize: 20, // Adjust font size
+            fontFamily: 'Roboto', // Set desired font family
+            fontWeight: FontWeight.bold, // Adjust font weight
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFFF55722),
+        elevation: 4, // Set border elevation
+      ),
       body: SafeArea(
         child: GoogleMap(
           initialCameraPosition: _initialPosition,
@@ -77,18 +91,12 @@ class _MapScreenState extends State<MapScreen> {
           },
         ),
       ),
-      //To be able to move to a specific location or back to the office
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.location_searching),
-        onPressed: () async {
-          GoogleMapController controller = await _controller.future;
-          controller.animateCamera(
-              CameraUpdate.newCameraPosition(const CameraPosition(
-            target: LatLng(-33.876115, 18.5008116),
-            zoom: 14,
-          )));
-          setState(() {});
-        },
+        onPressed: () => Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => MessageScreen()),
+        ),
+        child: const Icon(Icons.message),
       ),
     );
   }
