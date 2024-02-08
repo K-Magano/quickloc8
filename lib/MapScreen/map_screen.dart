@@ -72,7 +72,7 @@ class _MapScreenState extends State<MapScreen> {
           "Quick Loc8",
           style: TextStyle(
             color: Colors.white, // Change color as desired
-            fontSize: 20, // Adjust font size
+            fontSize: 25, // Adjust font size
             fontFamily: 'Roboto', // Set desired font family
             fontWeight: FontWeight.bold, // Adjust font weight
           ),
