@@ -1,67 +1,52 @@
 import "dart:async";
+import "dart:convert";
 import "package:flutter/material.dart";
-//import 'package:flutter/services.dart';
 import "package:google_maps_flutter/google_maps_flutter.dart";
+import "package:flutter/services.dart" as rootBundle;
 import "package:quickloc8/messageScreen/message_screen.dart";
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  const MapScreen({Key? key}) : super(key: key);
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  _MapScreenState createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
   final Completer<GoogleMapController> _controller = Completer();
-
-  static const CameraPosition _initialPosition = CameraPosition(
-    target: LatLng(-33.870847570782274, 18.505317311333606),
-    zoom: 14,
-  );
-
-  final List<Marker> myMarker = [];
-  final List<Marker> markerList = const [
-    Marker(
-      markerId: MarkerId("Home"),
-      position: LatLng(-33.870847570782274, 18.505317311333606),
-      infoWindow: InfoWindow(title: "Quickloc Office"),
-    ),
-    Marker(
-      markerId: MarkerId("TaxiOne"),
-      position: LatLng(-33.876115, 18.5008116),
-      infoWindow: InfoWindow(title: "TaxiOne!"),
-    ),
-    Marker(
-      markerId: MarkerId("TaxiTwo"),
-      position: LatLng(-33.9685533, 18.5662383),
-      infoWindow: InfoWindow(title: "TaxiTwo"),
-    ),
-    Marker(
-      markerId: MarkerId("TaxiThree"),
-      position: LatLng(-34.0461583, 18.7047383),
-      infoWindow: InfoWindow(title: "TaxiThree"),
-    ),
-    Marker(
-      markerId: MarkerId("TaxiFour"),
-      position: LatLng(-31.8994016, 26.8671716),
-      infoWindow: InfoWindow(title: "TaxiFour"),
-    ),
-    Marker(
-      markerId: MarkerId("TaxiFive"),
-      position: LatLng(-31.8942983, 26.878175),
-      infoWindow: InfoWindow(title: "TaxiFive"),
-    ),
-    Marker(
-      markerId: MarkerId("TaxiSix"),
-      position: LatLng(-31.9998233, 27.5801216),
-      infoWindow: InfoWindow(title: "TaxiSix"),
-    ),
-  ];
+  final Set<Marker> _markers = {};
 
   @override
   void initState() {
     super.initState();
-    myMarker.addAll(markerList);
+    _loadMarkers();
+  }
+
+  Future<void> _loadMarkers() async {
+    String jsonString = await rootBundle.rootBundle
+        .loadString('assets/jsonfile/vehicleCoordinates.json');
+    List<dynamic> jsonList = json.decode(jsonString);
+    _markers.clear(); // Clear existing markers
+    // Load custom marker icon
+    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
+      const ImageConfiguration(size: Size(20, 20)), // Adjust size as needed
+      'assets/images/white_taxi.png',
+    );
+    // Add markers to the set
+    jsonList.forEach((element) {
+      final double latitude = double.parse(element['latitude']);
+      final double longitude = double.parse(element['longitude']);
+      _markers.add(
+        Marker(
+          markerId: MarkerId(element['heading']),
+          position: LatLng(latitude, longitude),
+          icon: customIcon, // Set custom marker icon
+          infoWindow: InfoWindow(title: element['heading']),
+        ),
+      );
+    });
+    // Update the state to re-render the map with markers
+    setState(() {});
   }
 
   @override
@@ -79,25 +64,29 @@ class _MapScreenState extends State<MapScreen> {
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFFF55722),
-        elevation: 4, // Set border elevation
+        elevation: 4,
       ),
-      body: SafeArea(
-        child: GoogleMap(
-          initialCameraPosition: _initialPosition,
-          mapType: MapType.terrain,
-          markers: Set<Marker>.of(myMarker),
-          onMapCreated: (GoogleMapController controller) {
-            _controller.complete(controller);
-          },
+      body: GoogleMap(
+        initialCameraPosition: const CameraPosition(
+          target: LatLng(-33.870847570782274,
+              18.505317311333606), // Initial camera position
+          zoom: 12,
         ),
+        onMapCreated: (GoogleMapController controller) {
+          _controller.complete(controller);
+        },
+        markers: _markers, // Set of markers to display on the map
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MessageScreen()),
-        ),
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const MessageScreen()),
+          );
+        },
         child: const Icon(Icons.message),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }

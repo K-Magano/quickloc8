@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:flutter/services.dart' as rootBundle;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' as rootBundle;
 import 'package:quickloc8/MapScreen/map_screen.dart';
 import 'package:quickloc8/messageScreen/messages.dart';
 
@@ -51,8 +51,6 @@ class _MessageScreenState extends State<MessageScreen> {
             return ListView.builder(
               itemCount: items == null ? 0 : items.length,
               itemBuilder: (context, index) {
-                final hasProfilePicture = items[index].profilePicture != null;
-
                 return Card(
                   elevation: 5,
                   margin:

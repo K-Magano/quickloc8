@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:quickloc8/SplashScreen/splash_screen.dart';
-import 'package:quickloc8/MapScreen/map_screen.dart';
-import 'package:quickloc8/messageScreen/message_screen.dart';
-import 'package:quickloc8/theme.dart';
 
 void main() {
   runApp(
-    Theme(
-      data: lightTheme,
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }
 

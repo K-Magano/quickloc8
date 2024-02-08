@@ -9,8 +9,7 @@ class JsonMessages {
     required this.display,
   });
 
-  JsonMessages.fromJson(Map<String, dynamic> json) 
-  {
+  JsonMessages.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     subject = json['subject'];
     display = json['display'];
