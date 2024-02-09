@@ -116,13 +116,6 @@ class _MessageScreenState extends State<MessageScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => MapScreen()),
-        ),
-        child: const Icon(Icons.map),
-      ),
     );
   }
 }

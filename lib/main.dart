@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:quickloc8/SplashScreen/splash_screen.dart';
+import 'package:quickloc8/UserLocation/user_location.dart';
+import 'package:quickloc8/bottomNavigation/nav_bar.dart';
 
 void main() {
   runApp(

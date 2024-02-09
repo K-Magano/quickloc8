@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:quickloc8/MapScreen/map_screen.dart';
+
 import 'dart:async';
 import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:quickloc8/bottomNavigation/nav_bar.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen>
       const Duration(milliseconds: 3500),
       () {
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => MapScreen()));
+            context, MaterialPageRoute(builder: (context) => const NavBar()));
       },
     );
   }

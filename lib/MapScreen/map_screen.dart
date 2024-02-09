@@ -3,7 +3,6 @@ import "dart:convert";
 import "package:flutter/material.dart";
 import "package:google_maps_flutter/google_maps_flutter.dart";
 import "package:flutter/services.dart" as rootBundle;
-import "package:quickloc8/messageScreen/message_screen.dart";
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -77,16 +76,6 @@ class _MapScreenState extends State<MapScreen> {
         },
         markers: _markers, // Set of markers to display on the map
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const MessageScreen()),
-          );
-        },
-        child: const Icon(Icons.message),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }
