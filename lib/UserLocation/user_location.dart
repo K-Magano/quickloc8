@@ -37,6 +37,20 @@ class _UserLocationState extends State<UserLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "My Location",
+          style: TextStyle(
+            color: Colors.white, // Change color as desired
+            fontSize: 25, // Adjust font size
+            fontFamily: 'Roboto', // Set desired font family
+            fontWeight: FontWeight.bold, // Adjust font weight
+          ),
+        ),
+        centerTitle: true,
+        backgroundColor: const Color(0xFFF55722),
+        elevation: 4,
+      ),
       body: SafeArea(
         child: Stack(
           children: [

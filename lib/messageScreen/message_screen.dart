@@ -1,7 +1,11 @@
+/// The `MessageScreen` class is a Flutter widget that displays a list of messages loaded from a JSON
+/// file.
+/// The `import 'dart:convert';` statement is importing the `convert` library from the Dart SDK. This
+/// library provides functions for encoding and decoding JSON data. In this code, it is used to decode
+/// the JSON data loaded from a file into Dart objects.
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
-import 'package:quickloc8/MapScreen/map_screen.dart';
 import 'package:quickloc8/messageScreen/messages.dart';
 
 class MessageScreen extends StatefulWidget {
@@ -29,17 +33,17 @@ class _MessageScreenState extends State<MessageScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          "Quick  Alerts",
+          "Quick Alerts",
           style: TextStyle(
-            color: Colors.white, // Change color as desired
-            fontSize: 25, // Adjust font size
-            fontFamily: 'Roboto', // Set desired font family
-            fontWeight: FontWeight.bold, // Adjust font weight
+            color: Colors.white,
+            fontSize: 25,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         backgroundColor: const Color(0xFFF55722),
-        elevation: 4, // Set border elevation
+        elevation: 4,
       ),
       body: FutureBuilder(
         future: ReadJsonFile(),
@@ -55,56 +59,65 @@ class _MessageScreenState extends State<MessageScreen> {
                   elevation: 5,
                   margin:
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Row(
-                      children: [
-                        // Avatar
-                        const CircleAvatar(
-                          backgroundColor: Color(0xFFFFCCBC),
-                          radius: 25,
-                          child: Text(
-                            'E',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 25),
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        // Details (Subject, Message)
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // Subject
-                              Text(
-                                items[index].subject.toString(),
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 18,
-                                ),
+                  child: ExpansionTile(
+                    title: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Row(
+                        children: [
+                          const CircleAvatar(
+                            backgroundColor: Color(0xFFFFCCBC),
+                            radius: 25,
+                            child: Text(
+                              'E',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 25,
                               ),
-                              // Message
-                              Text(
-                                _truncateText(
-                                  items[index].message.toString(),
-                                  5,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  items[index].subject.toString(),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 18,
+                                  ),
                                 ),
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            ],
+                                const SizedBox(height: 5),
+                                Text(
+                                  _truncateText(
+                                    items[index].message.toString(),
+                                    5,
+                                  ),
+                                  style: const TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        // Display (Date)
-                        Text(
-                          items[index].display.toString(),
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey,
+                          Text(
+                            items[index].display.toString(),
+                            style: const TextStyle(
+                              fontSize: 14,
+                              color: Colors.grey,
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Text(
+                          items[index].message.toString(),
+                          style: const TextStyle(fontSize: 18),
+                        ),
+                      ),
+                    ],
                   ),
                 );
               },
@@ -118,17 +131,17 @@ class _MessageScreenState extends State<MessageScreen> {
       ),
     );
   }
-}
 
-String _truncateText(String text, int maxLength) {
-  if (text.length <= maxLength) {
-    return text;
-  } else {
-    final words = text.split(' ');
-    if (words.length <= maxLength) {
-      return words.join(' ');
+  String _truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
     } else {
-      return '${words.take(maxLength).join(' ')}...';
+      final words = text.split(' ');
+      if (words.length <= maxLength) {
+        return words.join(' ');
+      } else {
+        return '${words.take(maxLength).join(' ')}...';
+      }
     }
   }
 }
