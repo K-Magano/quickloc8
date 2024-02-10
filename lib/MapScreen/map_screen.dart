@@ -14,6 +14,7 @@ class MapScreen extends StatefulWidget {
 class _MapScreenState extends State<MapScreen> {
   final Completer<GoogleMapController> _controller = Completer();
   final Set<Marker> _markers = {};
+  bool _isLoading = true; // Track loading state
 
   @override
   void initState() {
@@ -21,39 +22,47 @@ class _MapScreenState extends State<MapScreen> {
     _loadMarkers();
   }
 
-/**_loadMarkers(): This asynchronous method loads marker data from a vehicleCoordinates.json located in the assets/jsonfile directory. 
- * It parses the JSON data, clears the existing markers, 
- * loads a custom marker icon, 
- * creates Marker objects for each coordinate in the JSON data, and adds them to the _markers set. 
- * Finally, it updates the state to re-render the map with the new markers. */
-
   Future<void> _loadMarkers() async {
-    String jsonString = await rootBundle.rootBundle
-        .loadString('assets/jsonfile/vehicleCoordinates.json');
-    List<dynamic> jsonList = json.decode(jsonString);
-    _markers.clear();
-
-    // Load custom marker icon
-    BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      const ImageConfiguration(size: Size(20, 20)),
-      'assets/images/white_taxi.png',
-    );
-
-    // Add markers to the set
-    jsonList.forEach((element) {
-      final double latitude = double.parse(element['latitude']);
-      final double longitude = double.parse(element['longitude']);
-      _markers.add(
-        Marker(
-          markerId: MarkerId(element['heading']),
-          position: LatLng(latitude, longitude),
-          icon: customIcon, // Set custom marker icon
-          infoWindow: InfoWindow(title: element['heading']),
-        ),
-      );
+    setState(() {
+      _isLoading = true;
     });
-    // Update the state to re-render the map with markers
-    setState(() {});
+
+    try {
+      String jsonString = await rootBundle.rootBundle
+          .loadString('assets/jsonfile/vehicleCoordinates.json');
+      List<dynamic> jsonList = json.decode(jsonString);
+      _markers.clear();
+
+      // Load custom marker icon
+      BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
+        const ImageConfiguration(size: Size(20, 20)),
+        'assets/images/white_taxi.png',
+      );
+
+      // Add markers to the set
+      jsonList.forEach((element) {
+        final double latitude = double.parse(element['latitude']);
+        final double longitude = double.parse(element['longitude']);
+        _markers.add(
+          Marker(
+            markerId: MarkerId(element['heading']),
+            position: LatLng(latitude, longitude),
+            icon: customIcon,
+            infoWindow: InfoWindow(title: element['heading']),
+          ),
+        );
+      });
+
+      // Update the state to re-render the map with markers and set loading state to false
+      setState(() {
+        _isLoading = false;
+      });
+    } catch (e) {
+      print('Error loading markers: $e');
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -73,16 +82,37 @@ class _MapScreenState extends State<MapScreen> {
         backgroundColor: const Color(0xFFF55722),
         elevation: 4,
       ),
-      body: GoogleMap(
-        initialCameraPosition: const CameraPosition(
-          target: LatLng(-33.870847570782274,
-              18.505317311333606), // Initial camera position
-          zoom: 12,
-        ),
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
-        markers: _markers, // Set of markers to display on the map
+      body: Stack(
+        children: [
+          GoogleMap(
+            initialCameraPosition: const CameraPosition(
+              target: LatLng(-33.870847570782274,
+                  18.505317311333606), // Initial camera position
+              zoom: 12,
+            ),
+            onMapCreated: (GoogleMapController controller) {
+              _controller.complete(controller);
+            },
+            markers: _markers, // Set of markers to display on the map
+          ),
+          if (_isLoading) // Display loading indicator if loading
+            const Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 16),
+                  Text(
+                    'Fetching locations',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
       ),
     );
   }
