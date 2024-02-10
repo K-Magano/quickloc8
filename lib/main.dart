@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:quickloc8/SplashScreen/splash_screen.dart';
-import 'package:quickloc8/UserLocation/user_location.dart';
-import 'package:quickloc8/bottomNavigation/nav_bar.dart';
 
 void main() {
   runApp(
@@ -18,6 +16,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Quickloc8 Demo',
+      // Set the initial screen of the app to the SplashScreen widget.
       home: SplashScreen(),
     );
   }

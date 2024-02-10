@@ -21,16 +21,24 @@ class _MapScreenState extends State<MapScreen> {
     _loadMarkers();
   }
 
+/**_loadMarkers(): This asynchronous method loads marker data from a vehicleCoordinates.json located in the assets/jsonfile directory. 
+ * It parses the JSON data, clears the existing markers, 
+ * loads a custom marker icon, 
+ * creates Marker objects for each coordinate in the JSON data, and adds them to the _markers set. 
+ * Finally, it updates the state to re-render the map with the new markers. */
+
   Future<void> _loadMarkers() async {
     String jsonString = await rootBundle.rootBundle
         .loadString('assets/jsonfile/vehicleCoordinates.json');
     List<dynamic> jsonList = json.decode(jsonString);
-    _markers.clear(); // Clear existing markers
+    _markers.clear();
+
     // Load custom marker icon
     BitmapDescriptor customIcon = await BitmapDescriptor.fromAssetImage(
-      const ImageConfiguration(size: Size(20, 20)), // Adjust size as needed
+      const ImageConfiguration(size: Size(20, 20)),
       'assets/images/white_taxi.png',
     );
+
     // Add markers to the set
     jsonList.forEach((element) {
       final double latitude = double.parse(element['latitude']);
@@ -55,10 +63,10 @@ class _MapScreenState extends State<MapScreen> {
         title: const Text(
           "Quick Loc8",
           style: TextStyle(
-            color: Colors.white, // Change color as desired
-            fontSize: 25, // Adjust font size
-            fontFamily: 'Roboto', // Set desired font family
-            fontWeight: FontWeight.bold, // Adjust font weight
+            color: Colors.white,
+            fontSize: 25,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,

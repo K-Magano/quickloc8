@@ -1,9 +1,7 @@
-import 'package:flutter/material.dart';
-
 import 'dart:async';
-import 'package:flutter_svg_provider/flutter_svg_provider.dart';
-
+import 'package:flutter/material.dart';
 import 'package:quickloc8/bottomNavigation/nav_bar.dart';
+import 'package:flutter_svg_provider/flutter_svg_provider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,6 +14,8 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
+
+  // Initialize the animation and set up delayed navigation
 
   @override
   void initState() {

@@ -1,3 +1,6 @@
+/*Overall, this class serves as a model for representing vehicle coordinates. 
+It provides functionality for initializing objects with coordinate data and parsing coordinate data from JSON format.*/
+
 class VehicleCoordinate {
   String? heading;
   double? latitude;

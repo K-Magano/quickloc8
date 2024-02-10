@@ -1,8 +1,4 @@
-/// The `MessageScreen` class is a Flutter widget that displays a list of messages loaded from a JSON
-/// file.
-/// The `import 'dart:convert';` statement is importing the `convert` library from the Dart SDK. This
-/// library provides functions for encoding and decoding JSON data. In this code, it is used to decode
-/// the JSON data loaded from a file into Dart objects.
+/// Displays a list of messages loaded from a JSON file.
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' as rootBundle;
@@ -58,7 +54,11 @@ class _MessageScreenState extends State<MessageScreen> {
                 return Card(
                   elevation: 5,
                   margin:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+
+                /**Each message is displayed within an ExpansionTile,
+                 *  allowing users to expand and collapse messages. 
+                 * The title of the ExpansionTile contains the subject of the message, while the children property contains the full message text. */
                   child: ExpansionTile(
                     title: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
@@ -131,6 +131,9 @@ class _MessageScreenState extends State<MessageScreen> {
       ),
     );
   }
+
+/*Truncates long message texts to a specified maximum length, appending ellipsis (...) 
+if necessary to indicate truncation.*/
 
   String _truncateText(String text, int maxLength) {
     if (text.length <= maxLength) {
