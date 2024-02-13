@@ -41,10 +41,10 @@ class _UserLocationState extends State<UserLocation> {
         title: const Text(
           "My Location",
           style: TextStyle(
-            color: Colors.white, // Change color as desired
-            fontSize: 25, // Adjust font size
-            fontFamily: 'Roboto', // Set desired font family
-            fontWeight: FontWeight.bold, // Adjust font weight
+            color: Colors.white,
+            fontSize: 25, 
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
@@ -107,6 +107,8 @@ class _UserLocationState extends State<UserLocation> {
   }
 }
 
+
+//Unused code. Trilateration
 class Trilateration {
   static Map<String, double> calculatePosition(
     List<Map<String, dynamic>> towers,
